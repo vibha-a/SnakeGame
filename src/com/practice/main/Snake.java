@@ -49,32 +49,34 @@ public class Snake extends GameObject{
 	}
 	
 	public void calcXPos (int direction) {
-		if(velX > 0) {
-			//System.out.println("greater");
-			nextTurn = x - x % width + width;
-			remain = nextTurn - x;
-						
-		}
-		else if(velX < 0) {
-			//System.out.println("less");
+		if(turnFlag == false) {
+			if(velX > 0) {
+				//System.out.println("greater");
+				nextTurn = x - x % width + width;
+				remain = nextTurn - x;
+							
+			}
+			else if(velX < 0) {
+				//System.out.println("less");
 
-			nextTurn = x - x % width - width;
-			remain = x - nextTurn;
+				nextTurn = x - x % width - width;
+				remain = x - nextTurn;
 
-		}
-		else if(velY < 0) {
+			}
+			else if(velY < 0) {
+				
+				nextTurn = y - y % height - height;
+				remain = y - nextTurn;
+			}
+			else if(velY > 0) {
+				
+				nextTurn = y - y % height + height;
+				remain = nextTurn - y;
+			}
 			
-			nextTurn = y - y % height - height;
-			remain = y - nextTurn;
+			turnDirection = direction;
+			turnFlag = true;
 		}
-		else if(velY > 0) {
-			
-			nextTurn = y - y % height + height;
-			remain = nextTurn - y;
-		}
-		
-		turnFlag = true;
-		turnDirection = direction;
 		
 	}
 	
@@ -83,18 +85,34 @@ public class Snake extends GameObject{
 		switch (direction) {
 		
 			case 1:		//Up
+				if(velX == 0) {
+					nextTurn = x;
+				}
+				x = nextTurn;
 				this.velY = - velMag;
 				this.velX = 0;
 				break;
 			case 2:		//Down
+				if(velX == 0) {
+					nextTurn = x;
+				}
+				x = nextTurn;
 				this.velY = velMag;
 				this.velX = 0;
 				break;
 			case 3:		//Left
+				if(velY == 0) {
+					nextTurn = y;
+				}
+				y = nextTurn;
 				this.velY = 0;
 				this.velX = - velMag;
 				break;
 			case 4:		//Right
+				if(velY == 0) {
+					nextTurn = y;
+				}
+				y = nextTurn;
 				this.velY = 0;
 				this.velX = velMag;
 				break;

@@ -1,5 +1,6 @@
 package com.practice.main;
 
+import java.util.*;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -15,7 +16,7 @@ public class Game extends Canvas implements Runnable{
 	private Thread thread;
 	private boolean running = false;
 	
-	private Random r, r1;
+	private Random r;
 	private Handler handler;
 	
 	public Game() {
@@ -26,14 +27,45 @@ public class Game extends Canvas implements Runnable{
 		
 		new Window(WIDTH, HEIGHT, "Lettuce", this);
 
-		r1 = new Random();
-		
-		
-		handler.addObject(new Food(r1.nextInt(WIDTH), r1.nextInt(HEIGHT), 20, 20, ID.Food));
-		
 		r = new Random();
 		
-		handler.addObject(new Snake(r.nextInt(WIDTH), r.nextInt(HEIGHT), 20, 20, ID.Snake));
+		int foodX = r.nextInt(WIDTH);
+		int foodY = r.nextInt(HEIGHT);
+
+		
+		foodX = foodX / 20  * 20 + 20 * (int) Math.round((double)(foodX % 20) / 20);
+		
+		foodY = foodY / 20  * 20 + 20 * (int) Math.round((double)(foodY % 20) / 20);
+		
+		int snakeX = r.nextInt(WIDTH);
+		int snakeY = r.nextInt(HEIGHT-5*20);
+
+		
+		snakeX = snakeX / 20  * 20 + 20 * (int) Math.round((double)(snakeX % 20) / 20);
+		
+		snakeY = snakeY / 20  * 20 + 20 * (int) Math.round((double)(snakeY % 20) / 20);
+		
+		
+		handler.addObject(new Food(foodX, foodY, 20, 20, ID.Food));
+						
+		LinkedList<Snake> snakeSegments = new LinkedList<Snake> ();
+		
+		Snake tempSegment = new Snake(snakeX, snakeY, 20, 20, ID.Snake);
+		
+		handler.addObject(tempSegment);
+		
+		snakeSegments.add(tempSegment);
+		
+		for(int i = 0; i < 5; i++) {
+			snakeY+=20;
+			
+			tempSegment = new Snake(snakeX, snakeY, 20, 20, ID.Snake);
+			
+			handler.addObject(tempSegment);
+			
+			snakeSegments.add(tempSegment);
+		}
+		
 
 		
 	}
